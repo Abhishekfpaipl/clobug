@@ -1,30 +1,40 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view />
+  <common-top-nav v-if="!hide" class=""></common-top-nav>
+  <router-view class="" />
+  <footer-nav v-if="!dont"></footer-nav>
+  <bottom-nav v-if="!dont" class=" position-fixed w-100 bg-white" style="bottom: 0; z-index:1;"></bottom-nav>
 </template>
-
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+import FooterNav from './components/Footer/FooterNav.vue';
+import BottomNav from './components/Navbar/BottomNav.vue';
+import CommonTopNav from './components/Navbar/CommonTopNav.vue';
+export default {
+  components: {
+    BottomNav,
+    CommonTopNav,
+    FooterNav
+},
+  computed: {
+    hide() {
+      const hiddenPages = ['CollectionList', 'CartPage', 'AddressPage', 'PaymentPage', 'LoginPage', 'RegistrationPage', 'ForgotPasswordPage', 'EmailVerificationPage']
+      return hiddenPages.includes(this.$route.name)
+    },
+    dont() {
+      const hiddenPages = ['LoginPage', 'RegistrationPage', 'ForgotPasswordPage', 'EmailVerificationPage', 'CartPage', 'AddressPage', 'PaymentPage']
+      return hiddenPages.includes(this.$route.name)
     }
   }
 }
+
+</script>
+
+<style>
+.truncate {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 </style>
