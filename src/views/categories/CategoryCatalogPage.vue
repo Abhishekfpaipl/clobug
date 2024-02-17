@@ -1,7 +1,7 @@
 <template>
     <div class="" style="padding-top: 60px;">
         <div v-for="(category, index) in categories" :key="index" class="mt-2">
-            <router-link :to="category.route" class="text-decoration-none text-dark">
+            <router-link :to="'/catalogs/' + category.name" class="text-decoration-none text-dark">
                 <div class="d-flex justify-content-between container align-items-center mb-2">
                     <div class="d-flex align-items-center w-100  border-bottom p-2" style="padding-top: 0 !important;">
                         <div class="rounded-circle border d-flex flex-column justify-content-center align-items-center me-3"

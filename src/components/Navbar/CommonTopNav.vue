@@ -1,6 +1,6 @@
 <template>
     <!-- Desktop version -->
-    <div class="d-lg-block d-none position-fixed  top-0 z-2 w-100" style="background-color: #F4B700;"
+    <div class="d-lg-block d-none position-fixed top-0 w-100" style="z-index: 10; background-color: #F4B700;"
         :style="{ backgroundColor: containerBackgroundColor }">
         <nav class="navbar navbar-expand-lg py-3">
             <div class="container-fluid">
@@ -10,23 +10,24 @@
 
                 <div class="container">
                     <ul class="list-unstyled mb-0">
-                        <li v-for="(cat, catIndex) in categories" :key="catIndex"
-                            class="category d-inline position-relative" @mouseover="setHoveredCategory(catIndex)"
-                            @mouseout="clearHoveredCategory">
+                        <li v-for="(cat, index) in categories" :key="index" class="category d-inline position-relative"
+                            @mouseover="setHoveredCategory(index)" @mouseout="clearHoveredCategory">
                             <a href="#" class="title px-2 text-decoration-none text-dark">{{ cat.title }}</a>
                             <div class="mega-menu " :style="{ backgroundColor: cat.bgColor }">
                                 <div class="" style="padding-left: 96px;">
                                     <ul class="d-flex list-unstyled mega-items">
                                         <li v-for="(subCat, index) in cat.subCat" :key="index" class="py-2 px-3 ">
-                                            <router-link :to="subCat.route" class="text-decoration-none ">
+                                            <router-link :to="'/catalogs/' + subCat.title" class="text-decoration-none ">
                                                 <a :href="subCat.route" class="fw-bold text-decoration-none text-dark">{{
                                                     subCat.title }}</a>
                                             </router-link>
                                             <div class="text-dark">
                                                 <div v-for="(a, key) in subCat.links" :key="key">
-                                                    <p class="my-2">
-                                                        {{ a.name }}
-                                                    </p>
+                                                    <router-link :to="'/catalogs/' + a.name" class="text-decoration-none text-dark">
+                                                        <p class="my-2">
+                                                            {{ a.name }}
+                                                        </p>
+                                                    </router-link>
                                                 </div>
                                             </div>
                                         </li>
@@ -99,11 +100,9 @@
     </div>
 
     <!-- Mobile version -->
-    <div class="d-flex justify-content-between d-lg-none p-2 position-fixed top-0  w-100 bg-light"
-        style="z-index: 8;">
+    <div class="d-flex justify-content-between d-lg-none p-2 position-fixed top-0 w-100 bg-light" style="z-index: 8;">
         <div class="d-flex gap-3">
-            <i class="bi bi-list fs-1 text-end" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu"
-                aria-controls="mobileMenu"></i>
+            <i class="bi bi-list fs-1 text-end" @click="toggleMainMenu()"></i>
             <router-link to="search-page" class="text-dark">
                 <i class="bi bi-search fs-2"></i>
             </router-link>
@@ -127,14 +126,39 @@
                 </router-link>
             </div>
         </div>
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu" aria-labelledby="offcanvasExampleLabel"
-            style="width: 80vw;">
-            <div class="offcanvas-header border-bottom">
+        <div class="offcanvas offcanvas-start show" v-if="mainMenu"
+            style="width: 80vw;" :style="{ backgroundColor: containerBackgroundColor }">
+            <div class="offcanvas-header border-bottom border-dark">
                 <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menu</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
-            <div class="offcanvas-body">
-                <router-link to="/login-page" class="text-decoration-none text-dark">
+            <div class="offcanvas-body" :style="{ backgroundColor: containerBackgroundColor }">
+                <div class="accordion" id="accordionExample" style="background-color: transparent;">
+                    <div class="accordion-item" v-for="(cat, index) in categories" :key="index"
+                        style="border:0px; background-color: transparent;" @mouseover="setHoveredCategory(index)"
+                        @mouseout="clearHoveredCategory">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse"
+                                :data-bs-target="'#cat' + index" aria-expanded="false" :aria-controls="'cat' + index">
+                                {{ cat.title }}
+                            </button>
+                        </h2>
+                        <div :id="'cat' + index" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                            <div class="accordion-body p-0" :style="{ backgroundColor: cat.bgColor }">
+                                <ul class="list-unstyled ">
+                                    <li v-for="(subCat, subIndex) in cat.subCat" :key="subIndex" class="py-2 px-3 ">
+                                        <router-link :to="'/catalogs/' + subCat.title" class="text-decoration-none ">
+                                            <a href="" class="text-decoration-none text-dark">{{
+                                                subCat.title }}</a>
+                                        </router-link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <router-link to="/login-page" class="text-decoration-none text-dark">
                     <p class="fs-5">Login</p>
                 </router-link>
                 <router-link to="/registration-page" class="text-decoration-none text-dark">
@@ -146,7 +170,7 @@
                 </router-link>
                 <router-link to="/faqs/customer-service">
                     <p class="fs-5">FAQs</p>
-                </router-link>
+                </router-link> -->
             </div>
         </div>
     </div>
@@ -159,354 +183,13 @@ export default {
         return {
             img: 'img/logo/CloBug.png',
             publicPath: process.env.BASE_URL,
-            categories: [
-                {
-                    id: 1,
-                    title: 'Women Ethnic',
-                    bgColor: '#FFD0D0',
-                    subCat: [
-                        {
-                            title: 'All Women Ethnic',
-                            links: [
-                                { name: 'View All', rot: '/product-page/1' }
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Sarees',
-                            links: [
-                                { name: 'All Sarees' }, { name: 'Silk Sarees' }, { name: 'Cotton Silk Sarees' },
-                                { name: 'Cottom Sarees' }, { name: 'Georgette Sarees' }, { name: 'Chiffon Sarees' },
-                                { name: 'Satin Sarees' }
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Kurtis',
-                            links: [
-                                { name: 'All Kurtis' }, { name: 'Anarkali Kurtis' }, { name: 'Rayon Kurtis' },
-                                { name: 'Cotton Kurtis' }, { name: 'Embroidered Kurtis' },
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Kurta Sets',
-                            links: [
-                                { name: 'All Kurta Sets' },
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Suit & Dress Material',
-                            links: [
-                                { name: ' All Suits & Dresses Material' }, { name: ' Cotton Suits' },
-                                { name: ' Embroidered Suits' }, { name: 'Chanderi Suits' },
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Other Ethnic',
-                            links: [
-                                { name: 'Blouses' }, { name: ' Dupattas' },
-                                { name: ' Lehanga' }, { name: 'Gown' },
-                            ],
-                            route: '/categories'
-                        },
-                    ],
-                },
-                {
-                    id: 2,
-                    title: 'Women Western',
-                    bgColor: '#FAEBB1',
-                    subCat: [
-                        {
-                            title: 'Topwear',
-                            links: [
-                                { name: 'Tops' }, { name: 'Dresses' }, { name: 'Sweaters' },
-                                { name: 'Jumpsuits' },
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Bottomwear',
-                            links: [
-                                { name: 'Jean' }, { name: 'Jeggings' }, { name: 'Palazzos' },
-                                { name: 'Shorts' }, { name: 'Skirts' },
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Innerwear',
-                            links: [
-                                { name: 'Bra' }, { name: 'Briefs' },
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Sleepwear',
-                            links: [
-                                { name: 'Nightsuits' },
-                                { name: 'Babydolls' },
-                            ],
-                            route: '/categories'
-                        },
-                    ],
-                },
-                {
-                    id: 3,
-                    title: 'Men',
-                    bgColor: '#C2DEDC',
-                    subCat: [
-                        {
-                            title: 'Top Wear',
-                            links: [
-                                { name: 'All Top Wear' },
-                                { name: 'T-shirts' },
-                                { name: 'Shirts' },
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Bottom Wear',
-                            links: [
-                                { name: 'Track Pants' }, { name: 'Jeans' }, { name: 'Trousers' },
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Men Accessories',
-                            links: [
-                                { name: 'All Men Accessories' }, { name: 'Watches' }, { name: 'Belts' },
-                                { name: 'Wallets' }, { name: 'Jewellary' },
-                                { name: 'Sunglasses' }, { name: 'Bags' },
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Men Footwear',
-                            links: [
-                                { name: 'Casual Shoes' },
-                                { name: 'Formal Shoes' },
-                                { name: 'Sports Shoes' },
-                                { name: 'Sandals' },
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Ethnic Wear',
-                            links: [
-                                { name: ' Men Kurtas' }, { name: ' Ethnic Jackets' },
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Inner & Sleep Wear',
-                            links: [
-                                { name: 'All Inner & Sleep Wear' }, { name: ' Vests' },
-                            ],
-                            route: '/categories'
-                        },
-                    ],
-                    links: 'View All'
-                },
-                {
-                    id: 4,
-                    title: 'Kids',
-                    bgColor: '#FFDDCC',
-                    subCat: [
-                        {
-                            title: 'Accessories',
-                            links: [
-                                { name: 'Footwears' },
-                                { name: 'Stationery' },
-                                { name: 'Watches' },
-                                { name: 'Bags & Backpacks' },
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Boys & Girls 2+ Years',
-                            links: [
-                                { name: 'Dresses' },
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Infant 0-2 Years',
-                            links: [
-                                { name: 'Rompers' },
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Kurta Sets',
-                            links: [
-                                { name: 'All Kurta Sets' },
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Baby Care',
-                            links: [
-                                { name: ' All Baby Care' },
-                            ],
-                            route: '/categories'
-                        },
-                    ],
-                },
-                {
-                    id: 5,
-                    title: 'Home & Kitchen',
-                    bgColor: '#B3E5BE',
-                    subCat: [
-                        {
-                            title: 'Home Furnishing',
-                            links: [
-                                { name: 'Bedsheets' },
-                                { name: 'Doormats' },
-                                { name: 'Curtains & Sheers' },
-                                { name: 'Cushions & Covers' },
-                                { name: 'Mattress Protectors' },
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Home Decor',
-                            links: [
-                                { name: 'All Home Decor' },
-                                { name: 'Stickers' },
-                                { name: 'Clocks' },
-                                { name: 'Showpieces' },
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Kitchen & Dinning',
-                            links: [
-                                { name: 'Kitchen Storage' },
-                                { name: 'Cookware & Bakeware' },
-                            ],
-                            route: '/categories'
-                        },
-                    ],
-                },
-                {
-                    id: 6,
-                    title: 'Beauty & Health',
-                    bgColor: '#FAEBB0',
-                    subCat: [
-                        {
-                            title: 'Make Up',
-                            links: [
-                                { name: 'Face' },
-                                { name: 'Nails' },
-                                { name: 'Eyes' },
-                                { name: 'Lips' },
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Wellness',
-                            links: [
-                                { name: 'Sanitizers' },
-                                { name: 'Oral Care' },
-                                { name: 'Feminine Hygiene' },
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Skincare',
-                            links: [
-                                { name: 'Deodorants' },
-                            ],
-                            route: '/categories'
-                        },
-                    ],
-                },
-                {
-                    id: 7,
-                    title: 'Jewellary & Accessories',
-                    bgColor: '#FDFFAE',
-                    subCat: [
-                        {
-                            title: 'Jewellery',
-                            links: [
-                                { name: 'Jewellery Set' },
-                                { name: 'Earrings' },
-                                { name: 'Mangalsutras' },
-                                { name: 'Studs' },
-                                { name: 'Bangles' },
-                                { name: 'Necklaces' },
-                                { name: 'Rings' },
-                                { name: 'Anklets' },
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Women Accessory',
-                            links: [
-                                { name: 'Bags' },
-                                { name: 'Watches' },
-                                { name: ' Hair Accessories' },
-                                { name: ' Sunglasses' },
-                                { name: ' Socks' },
-                            ],
-                            route: '/categories'
-                        },
-                    ],
-                },
-                {
-                    id: 8,
-                    title: 'Bags & Footwear',
-                    bgColor: '#EADBC8',
-                    subCat: [
-                        {
-                            title: 'Women Bags',
-                            links: [
-                                { name: 'All Women Bags' },
-                                { name: 'Handbags' },
-                                { name: 'Clutches' },
-                                { name: 'Slingbags' },
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Men Bags',
-                            links: [
-                                { name: 'All Men Bags' },
-                                { name: 'Wallets' },
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Women Footwear',
-                            links: [
-                                { name: 'Flats' },
-                                { name: 'Bellies' },
-                                { name: 'Juttis' },
-                            ],
-                            route: '/categories'
-                        },
-                        {
-                            title: 'Men Footwear',
-                            links: [
-                                { name: 'Sports Shoes' },
-                                { name: 'Casual Shoes' },
-                                { name: 'Formal Shoes' },
-                                { name: 'Sandals' },
-                            ],
-                            route: '/categories'
-                        },
-                    ],
-                },
-
-
-
-            ],
             hoveredCategoryIndex: -1,
         };
     },
     computed: {
+        mainMenu() {
+            return this.$store.getters.mainMenu
+        },
         savedProducts() {
             return this.$store.getters['catalog/getSavedProducts']
         },
@@ -520,10 +203,16 @@ export default {
             if (this.hoveredCategoryIndex !== -1) {
                 return this.categories[this.hoveredCategoryIndex].bgColor;
             }
-            return '#F4B700'; // Default color when no category is hovered
+            return 'white';
         },
+        categories() {
+            return this.$store.getters['collection/getMenuCategories']
+        }
     },
     methods: {
+        toggleMainMenu() {
+            this.$store.dispatch('toggleMainMenu');
+        },
         setHoveredCategory(index) {
             this.hoveredCategoryIndex = index;
         },
@@ -545,6 +234,7 @@ export default {
      z-index: 3;
      width: 100vw;
  }
+
  .category:hover .title {
      color: red !important;
      border-bottom: 2px solid red !important;
@@ -571,4 +261,20 @@ export default {
      text-align: center;
      line-height: 14px;
  }
-</style>
+
+ .accordion-button:focus {
+     box-shadow: none !important
+ }
+
+ .accordion-button:not(.collapsed) {
+     background-color: transparent;
+     box-shadow: none;
+ }
+
+ .accordion-button::after {
+     display: none;
+ }
+
+ .accordion-item .accordion-button {
+     background-color: transparent;
+ }</style>

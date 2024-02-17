@@ -1,6 +1,6 @@
 <template>
     <div style="padding-top: 60px;">
-        <FaqTopBar>Customer</FaqTopBar>
+        <FaqTopBar></FaqTopBar>
         <div class="container bg-light my-3 py-3">
             <p class="mb-0">We're Here To Help !</p>
             <div class="row justify-content-around mt-2">
@@ -11,7 +11,6 @@
                             <p>{{ f.text }}</p>
                         </div>
                     </router-link>
-
                 </div>
             </div>
         </div>
@@ -51,34 +50,34 @@ export default {
                 },
                 {
                     id: 5,
-                    icon: 'bi bi-arrow-repeat fs-1',
-                    text: 'Returns',
-                    link: 'faqs/returns',
+                    icon: 'bi bi-file-lock fs-1',
+                    text: 'Privacy Policy',
+                    link: 'privacy-policy',
                 },
                 {
                     id: 6,
-                    icon: 'bi bi-box fs-1',
-                    text: 'Product & Stock',
-                    link: 'faqs/stock',
+                    icon: 'bi bi-journal-check fs-1',
+                    text: 'Terms & Conditions',
+                    link: 'term-&-condition',
                 },
-                {
-                    id: 7,
-                    icon: 'bi bi-person fs-1',
-                    text: 'Care Instructions',
-                    link: 'faqs/care-instructions',
-                },
-                {
-                    id: 8,
-                    icon: 'bi bi-ticket fs-1',
-                    text: 'Promotions',
-                    link: 'faqs/promotions',
-                },
-                {
-                    id: 9,
-                    icon: 'bi bi-pentagon fs-1',
-                    text: 'Membership',
-                    link: 'faqs/membership',
-                },
+                // {
+                //     id: 7,
+                //     icon: 'bi bi-person fs-1',
+                //     text: 'Care Instructions',
+                //     link: 'faqs/care-instructions',
+                // },
+                // {
+                //     id: 8,
+                //     icon: 'bi bi-ticket fs-1',
+                //     text: 'Promotions',
+                //     link: 'faqs/promotions',
+                // },
+                // {
+                //     id: 9,
+                //     icon: 'bi bi-pentagon fs-1',
+                //     text: 'Membership',
+                //     link: 'faqs/membership',
+                // },
 
             ]
         }

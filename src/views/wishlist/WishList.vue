@@ -28,7 +28,8 @@
                                         <div :id="'cardCarousel' + imgIndex" class="carousel-item"
                                             :class="{ active: imgIndex === 0 }"
                                             v-for="(image, imgIndex) in  ProductById(pro).images" :key="imgIndex">
-                                            <img :src="image" class="card-img-top rounded-0" alt=""
+                                            <img :src="`${publicPath}${image}`"
+                                             class="card-img-top rounded-0" alt=""
                                                 style="min-height:100px;">
                                         </div>
                                     </div>
@@ -38,7 +39,7 @@
                                             :class="{ active: imgIndex === 0 }"
                                             :aria-current="imgIndex === 0 ? true : false"
                                             v-for="(image, imgIndex) in  ProductById(pro).images" :key="imgIndex">
-                                            <img :src="image" class="rounded-circle" alt=""
+                                            <img :src="`${publicPath}${image}`" class="rounded-circle" alt=""
                                                 style="width: 35px; height: 35px; object-fit: fill;">
                                         </button>
                                     </div>
@@ -69,10 +70,10 @@
             <div class="row">
 
                 <div class="col-8">
-                    <p class="p-2 bg-light">
+                    <!-- <p class="p-2 bg-light">
                         Hooray! You're just ₹990 away from unlocking free shipping! Shipping charges on the below order is
                         ₹99.
-                    </p>
+                    </p> -->
 
                     <div class="d-flex align-items-center">
                         <div class="d-flex gap-2">
@@ -99,8 +100,8 @@
                                                 <div :id="'cardCarousel' + imgIndex" class="carousel-item"
                                                     :class="{ active: imgIndex === 0 }"
                                                     v-for="(image, imgIndex) in  ProductById(pro).images" :key="imgIndex">
-                                                    <img :src="image" class="card-img-top rounded-0" alt=""
-                                                        style="min-height:100px;">
+                                                    <img :src="`${publicPath}${image}`" class="card-img-top rounded-0"
+                                                        alt="" style="min-height:100px;">
                                                 </div>
                                             </div>
                                             <div class="d-flex mt-1" id="scroll" style="overflow-x: scroll;">
@@ -109,7 +110,7 @@
                                                     :class="{ active: imgIndex === 0 }"
                                                     :aria-current="imgIndex === 0 ? true : false"
                                                     v-for="(image, imgIndex) in  ProductById(pro).images" :key="imgIndex">
-                                                    <img :src="image" class="rounded-circle" alt=""
+                                                    <img :src="`${publicPath}${image}`" class="rounded-circle" alt=""
                                                         style="width: 35px; height: 35px; object-fit: fill;">
                                                 </button>
                                             </div>
@@ -123,7 +124,10 @@
                                     </div>
 
                                     <div class="card-body" style="padding:3px">
+                                        <p class="m-0 fw-bold truncate" style="font-size:13px;">{{ ProductById(pro).name }}
+                                        </p>
                                         <div class="d-flex justify-content-between mt-1 ms-1 pb-1">
+
                                             <p class="m-0 fw-bold" style="font-size:13px;">₹{{ ProductById(pro).price }} /
                                                 pc</p>
                                             <p class="m-0 fw-bold" style="font-size:13px;">{{ ProductById(pro).type }}</p>
@@ -155,7 +159,7 @@
             </div>
         </div>
         <HomePageCard></HomePageCard>
-       
+
     </div>
 </template>
 <script>

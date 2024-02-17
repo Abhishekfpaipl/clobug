@@ -1,7 +1,7 @@
 <template>
-  <common-top-nav v-if="!hide" class=""></common-top-nav>
-  <router-view class="" />
-  <footer-nav v-if="!dont"></footer-nav>
+  <common-top-nav v-if="!hide"></common-top-nav>
+  <router-view></router-view>
+  <footer-nav v-if="!hidden"></footer-nav>
   <bottom-nav v-if="!dont" class=" position-fixed w-100 bg-white" style="bottom: 0; z-index:1;"></bottom-nav>
 </template>
 <script>
@@ -16,11 +16,15 @@ export default {
 },
   computed: {
     hide() {
-      const hiddenPages = ['CollectionList', 'CartPage', 'AddressPage', 'PaymentPage', 'LoginPage', 'RegistrationPage', 'ForgotPasswordPage', 'EmailVerificationPage']
+      const hiddenPages = ['CollectionList', 'CartPage', 'AddressPage', 'PaymentPage', 'LoginPage', 'RegistrationPage', 'ForgotPasswordPage', 'EmailVerificationPage','search-page',]
       return hiddenPages.includes(this.$route.name)
     },
     dont() {
       const hiddenPages = ['LoginPage', 'RegistrationPage', 'ForgotPasswordPage', 'EmailVerificationPage', 'CartPage', 'AddressPage', 'PaymentPage']
+      return hiddenPages.includes(this.$route.name)
+    },
+    hidden() {
+      const hiddenPages = ['LoginPage', 'RegistrationPage', 'ForgotPasswordPage', 'EmailVerificationPage', 'CartPage', 'AddressPage', 'PaymentPage','search-page']
       return hiddenPages.includes(this.$route.name)
     }
   }

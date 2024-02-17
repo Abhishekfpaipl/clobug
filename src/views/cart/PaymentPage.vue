@@ -169,7 +169,7 @@
                     <p class="m-0 text-center fw-bold">1 Catalog</p>
                 </div>
                 <div class="me-3">
-                    <router-link to="/checkout/address-page" class="text-decoration-none text-dark">
+                    <router-link to="/" class="text-decoration-none text-dark">
                         <div class="d-flex align-items-center">
                             <button class="btn btn-warning py-2">
                                 Continue

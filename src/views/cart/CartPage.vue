@@ -40,8 +40,8 @@
                                     <div class="form-group w-100 d-flex">
                                         <label for="sizeSelect">Size:</label>
                                         <select v-model="ca.size" class="form-control-sm ms-2" id="sizeSelect">
-                                            <option v-for="(size, sizeIndex) in ProductById(ca.productId).sizes" :key="sizeIndex"
-                                                :value="size.name">
+                                            <option v-for="(size, sizeIndex) in ProductById(ca.productId).sizes"
+                                                :key="sizeIndex" :value="size.name">
                                                 {{ size.name }}
                                             </option>
                                         </select>
@@ -51,16 +51,20 @@
                                         <label for="quantitySelect">Qty:</label>
                                         <select v-model="ProductById(ca.productId).selectedQuantity"
                                             class="form-control-sm ms-2" id="quantitySelect">
-                                            <option v-for="(qty, qtyIndex) in  ProductById(ca.productId).quantities"
+                                            <!-- <option v-for="(qty, qtyIndex) in  ProductById(ca.productId).quantities"
                                                 :key="qtyIndex" :value="qty.name">
                                                 {{ qty.name }}
-                                            </option>
+                                            </option> -->
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center gap-2 mt-3">
                                     <p class="mb-0">Color: </p>
-                                    <img class="rounded-circle" :src="ca.color"
+                                    <img class="rounded-circle" :src="ca.color.img"
                                         style="width:40px;height:40px; object-fit: cover; margin: 0.05rem;" />
                                 </div>
                             </div>
@@ -188,11 +192,11 @@ export default {
         cart() {
             return this.$store.getters['catalog/getCart']
         },
-        getCartSummary(){
+        getCartSummary() {
             return this.$store.getters['catalog/getCartSummary']
         },
         gstAmount() {
-            return this.getCartSummary * 0.18; 
+            return this.getCartSummary * 0.18;
         },
         grandTotalWithGSTAndAmount() {
             return this.getCartSummary + this.gstAmount;
@@ -215,7 +219,7 @@ export default {
             }
         },
         saveProduct(productId) {
-            this.$store.dispatch('saveProduct', productId)
+            this.$store.dispatch('catalog/saveProduct', productId)
         },
     }
 }

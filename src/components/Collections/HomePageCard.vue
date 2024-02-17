@@ -18,7 +18,7 @@
                                     :data-bs-target="'#productImages' + index" :data-bs-slide-to="imgIndex"
                                     :class="{ active: imgIndex === 0 }" :aria-current="imgIndex === 0 ? true : false"
                                     v-for="(image, imgIndex) in product.images" :key="imgIndex">
-                                    <img :src="image" class="rounded-circle" alt=""
+                                    <img :src="`${publicPath}${image}`" class="rounded-circle" alt=""
                                         style="width: 35px; height: 35px; object-fit: fill;">
                                 </button>
                             </div>
@@ -30,16 +30,18 @@
                         </div>
                     </div>
 
-                    <div class="card-body" style="padding:3px">
+                    <div class="card-body mt-3 px-1" style="padding:3px;font-size:13px;">
+                        <p class="m-0 fw-bold truncate">{{ product.name }}</p>
+
                         <div class="d-flex justify-content-between mt-1 ms-1 pb-1">
-                            <p class="m-0 fw-bold" style="font-size:13px;">₹{{ product.price }} / pc</p>
-                            <p class="m-0 fw-bold" style="font-size:13px;">{{ product.type }}</p>
+                            <p class="m-0">₹{{ product.price }}</p>
+                            <p class="m-0">{{ product.type }}</p>
                         </div>
                     </div>
 
-                    <div class="card-footer p-0">
-                        <div class="btn-group w-100 rounded-bottom overflow-hidden" style="opacity: .85;">
-                            <button class="btn bg-outline-dark rounded-0" @click="showActive(product)">
+                    <div class="p-0 bg-warning rounded-0">
+                        <div class="btn-group w-100  overflow-hidden">
+                            <button class="btn" @click="showActive(product)">
                                 <i class="bi bi-plus-square"></i> <span>Quick Add</span>
                             </button>
                         </div>
@@ -52,8 +54,9 @@
 
 
     <div v-if="Object.keys(activeProduct).length !== 0">
+        <div class="offcanvas-overlay" @click="hideActive()"></div>
         <div class="offcanvas offcanvas-bottom show" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop"
-            aria-labelledby="staticBackdropLabel" style="height: calc(70% - 100px);">
+            aria-labelledby="staticBackdropLabel" style="height: 50%;">
             <div class="d-flex justify-content-center align-items-center border-bottom">
                 <div class=" w-100 d-flex justify-content-center align-items-center">
                     <p class="fw-bold text-center m-0">Product Performance</p>
@@ -68,17 +71,17 @@
                     <div class="d-flex gap-3 align-item-center">
                         <p class="mb-1">Color : </p>
                         <div v-if="selectedColor">
-                            <img :src="selectedColor" class="rounded-circle"
+                            <img :src="`${publicPath}${selectedColor.img}`" class="rounded-circle"
                                 style="width:40px;height:40px; object-fit: fill;">
                         </div>
                     </div>
-                    <div class=" d-flex mt-2">
+                    <div class=" d-flex flex-wrap mt-2">
                         <div class="me-2" v-for="(color, index) in activeProduct.colors" :key="index">
                             <input type="radio" name="product-color" class="btn-check" :id="'selectProductColor' + index"
                                 autocomplete="off" :value="color" v-model="selectedColor" checked>
                             <label class="btn btn-outline-dark border-light rounded-circle p-0"
                                 :for="'selectProductColor' + index">
-                                <img class="rounded-circle" :src="color"
+                                <img class="rounded-circle" :src="`${publicPath}${color.img}`"
                                     style="width:40px;height:40px; object-fit: fill; margin: 0.05rem;" />
                             </label>
                         </div>
@@ -128,7 +131,7 @@ export default {
             publicPath: process.env.BASE_URL,
             showPopup: false,
             selectedColor: null,
-            selectedSize: null,
+            selectedSize: 'F',
             showPopupCart: false,
         }
     },
@@ -197,5 +200,15 @@ export default {
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     z-index: 1000;
+}
+
+.offcanvas-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
 }
 </style>

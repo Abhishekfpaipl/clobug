@@ -16,11 +16,6 @@ const routes = [
 
         ]
     },
-    {
-        path: '/common',
-        name: 'CommonTopNav',
-        component: () => import('@/components/Navbar/CommonTopNav.vue')
-    },
 ]
 export default routes
 

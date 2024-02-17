@@ -10,14 +10,14 @@
         </routerLink>
       </div>
 
-      <div class="items">
+      <!-- <div class="items">
         <router-link to="/categories" :class="{'text-dark' : currentRoute ==='CategoryCatalogPage' }" style="text-decoration:none;color:rgb(139, 139, 163);">
           <div class="inner-items py-1 d-flex flex-column">
             <i class="bi bi-grid-1x2 fs-5"></i>
             <p class="m-0" style="font-size:12px">Category</p>
           </div>
         </router-link>
-      </div>
+      </div> -->
       
       <div class="items">
         <div class="inner-items py-1 d-flex flex-column">

@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex px-2" style="padding-top: 60px;">
+    <div class="d-flex px-2" >
         <i class="bi bi-arrow-left fs-4 mt-2" @click="goBack()"></i>
         <div class="d-flex mt-2 w-100">
             <div class="input-group d-flex justify-content-center">

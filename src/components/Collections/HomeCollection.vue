@@ -4,7 +4,7 @@
             <div v-for="(collection, index) in collections" :key="index">
                 <router-link :to="'/product-page/' + collection.id" class="text-decoration-none text-dark">
                     <div class="w-100">
-                        <img :src="collection.img" style="width:180px;">
+                        <img :src="`${publicPath}${collection.img}`" style="width:180px;">
                     </div>
                     <p class="truncate mb-1" style="font-size: 12px;">{{ collection.name }}</p>
                     <p class="mb-2 " style="font-size: 12px;">₹{{ collection.price }}</p>
@@ -21,7 +21,7 @@
             <div class="d-none d-md-flex overflow-x-scroll gap-3 px-2" id="scroll" ref="gallery">
                 <div v-for="(collection, index) in collections" :key="index">
                     <div class="w-100">
-                        <img :src="collection.img" style="width:300px;">
+                        <img :src="`${publicPath}${collection.img}`" style="width:300px;">
                     </div>
                     <p class="truncate mb-1" style="font-size: 12px;">{{ collection.name }}</p>
                     <p class="mb-2 " style="font-size: 12px;">₹{{ collection.price }}</p>
@@ -54,10 +54,11 @@
                 <p class="mb-0 fs-1 fw-bold">Best Seller</p>
                 <p class="mb-0 fs-5">Shop Now</p>
             </div>
-            <div class="d-md-none d-flex overflow-x-scroll gap-3 px-2" id="scroll">
-                <div v-for="(best, index) in bestSeller" :key="index">
-                    <div class="w-100">
-                        <img :src="best.img" style="width:180px;">
+            <!-- <div class="d-md-none d-flex overflow-x-scroll gap-3 px-2" id="scroll"> -->
+            <div class="d-md-none row row-cols-2 px-2" id="scroll">
+                <div v-for="(best, index) in bestSeller" :key="index" class="col">
+                    <div class="">
+                        <img :src="`${publicPath}${best.img}`" style="width:180px;">
                     </div>
                     <p class="truncate mb-1" style="font-size: 12px;">{{ best.name }}</p>
                     <p class="mb-2 " style="font-size: 12px;">₹{{ best.price }}</p>
@@ -66,7 +67,7 @@
             <div class="d-none d-md-flex justify-content-between overflow-x-scroll gap-3 px-2">
                 <div v-for="(best, index) in bestSeller" :key="index">
                     <div class="w-100">
-                        <img :src="best.img" style="width:250px;">
+                        <img :src="`${publicPath}${best.img}`" style="width:250px;">
                     </div>
                     <p class="truncate mb-1" style="font-size: 12px;">{{ best.name }}</p>
                     <p class="mb-2 " style="font-size: 12px;">₹{{ best.price }}</p>
